@@ -37,3 +37,13 @@ else()
 	add_definitions(-DGUID_LIBUUID)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
 endif()
+
+set_target_properties(xg
+PROPERTIES PUBLIC_HEADER Guid.hpp
+)
+
+install(TARGETS xg
+    ARCHIVE DESTINATION lib
+    PUBLIC_HEADER DESTINATION include
+)
+
