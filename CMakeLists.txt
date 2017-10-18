@@ -16,6 +16,7 @@ if (XG_TESTS)
 endif()
 
 include(PlatformDependencies)
+__add_xg_platform_dependencies(xgtest)
 
 set_target_properties(xg
 PROPERTIES PUBLIC_HEADER Guid.hpp
