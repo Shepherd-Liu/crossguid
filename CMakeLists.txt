@@ -7,10 +7,11 @@ option(XG_TESTS "Build test runner" ON)
 
 include_directories(.)
 set(CMAKE_CXX_STANDARD 11)
+include(PlatformDependencies)
 
 add_library(xg Guid.cpp)
+__add_xg_platform_dependencies(xg)
 
-include(PlatformDependencies)
 if (XG_TESTS)
 	add_executable(xgtest test/TestMain.cpp test/Test.cpp)
 	target_link_libraries(xgtest xg)
