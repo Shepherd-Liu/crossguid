@@ -3,7 +3,7 @@ project(CrossGuid)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
-option(XG_TESTS "Build test runner" ON)
+option(XG_TESTS "Build test runner" OFF)
 
 include_directories(.)
 set(CMAKE_CXX_STANDARD 11)
@@ -27,4 +27,11 @@ install(TARGETS xg
     ARCHIVE DESTINATION lib
     PUBLIC_HEADER DESTINATION include
 )
+
+if(MSVC)
+    install(FILES ${PROJECT_BINARY_DIR}/CMakeFiles/xg.dir/xg.pdb
+        DESTINATION lib
+        CONFIGURATIONS Debug
+        )
+endif(MSVC)
 
