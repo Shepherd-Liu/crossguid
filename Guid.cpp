@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+#include <stdio.h>
 #include <cstring>
 #include "Guid.hpp"
 
@@ -407,6 +408,14 @@ Guid newGuid()
 }
 #endif
 
+#ifdef __psp2__ 
+Guid newGuid()
+{
+    Guid newId;
+    // not implemented
+	return newId;
+}
+#endif
 
 END_XG_NAMESPACE
 
