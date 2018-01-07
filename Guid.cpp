@@ -357,36 +357,48 @@ Guid newGuid()
 #ifdef GUID_ANDROID
 Guid newGuid(JNIEnv *env)
 {
-	assert(env != androidInfo.env || std::this_thread::get_id() == androidInfo.initThreadId);
+    std::array<unsigned char, 16> bytes;
 
-	jobject javaUuid = env->CallStaticObjectMethod(
-		androidInfo.uuidClass, androidInfo.newGuidMethod);
-	jlong mostSignificant = env->CallLongMethod(javaUuid,
-		androidInfo.mostSignificantBitsMethod);
-	jlong leastSignificant = env->CallLongMethod(javaUuid,
-		androidInfo.leastSignificantBitsMethod);
+    if (env) {
+        // we have a corresponding Java env
 
-	std::array<unsigned char, 16> bytes =
-	{
-		(unsigned char)((mostSignificant >> 56) & 0xFF),
-		(unsigned char)((mostSignificant >> 48) & 0xFF),
-		(unsigned char)((mostSignificant >> 40) & 0xFF),
-		(unsigned char)((mostSignificant >> 32) & 0xFF),
-		(unsigned char)((mostSignificant >> 24) & 0xFF),
-		(unsigned char)((mostSignificant >> 16) & 0xFF),
-		(unsigned char)((mostSignificant >> 8) & 0xFF),
-		(unsigned char)((mostSignificant) & 0xFF),
-		(unsigned char)((leastSignificant >> 56) & 0xFF),
-		(unsigned char)((leastSignificant >> 48) & 0xFF),
-		(unsigned char)((leastSignificant >> 40) & 0xFF),
-		(unsigned char)((leastSignificant >> 32) & 0xFF),
-		(unsigned char)((leastSignificant >> 24) & 0xFF),
-		(unsigned char)((leastSignificant >> 16) & 0xFF),
-		(unsigned char)((leastSignificant >> 8) & 0xFF),
-		(unsigned char)((leastSignificant) & 0xFF)
-	};
+        // following assertion seems true negetive with Native Activity,
+        // so disable temporary
+        // assert(env != androidInfo.env || std::this_thread::get_id() == androidInfo.initThreadId);
 
-	env->DeleteLocalRef(javaUuid);
+        jobject javaUuid = env->CallStaticObjectMethod(
+            androidInfo.uuidClass, androidInfo.newGuidMethod);
+        jlong mostSignificant = env->CallLongMethod(javaUuid,
+            androidInfo.mostSignificantBitsMethod);
+        jlong leastSignificant = env->CallLongMethod(javaUuid,
+            androidInfo.leastSignificantBitsMethod);
+
+        bytes =
+        {
+            (unsigned char)((mostSignificant >> 56) & 0xFF),
+            (unsigned char)((mostSignificant >> 48) & 0xFF),
+            (unsigned char)((mostSignificant >> 40) & 0xFF),
+            (unsigned char)((mostSignificant >> 32) & 0xFF),
+            (unsigned char)((mostSignificant >> 24) & 0xFF),
+            (unsigned char)((mostSignificant >> 16) & 0xFF),
+            (unsigned char)((mostSignificant >> 8) & 0xFF),
+            (unsigned char)((mostSignificant) & 0xFF),
+            (unsigned char)((leastSignificant >> 56) & 0xFF),
+            (unsigned char)((leastSignificant >> 48) & 0xFF),
+            (unsigned char)((leastSignificant >> 40) & 0xFF),
+            (unsigned char)((leastSignificant >> 32) & 0xFF),
+            (unsigned char)((leastSignificant >> 24) & 0xFF),
+            (unsigned char)((leastSignificant >> 16) & 0xFF),
+            (unsigned char)((leastSignificant >> 8) & 0xFF),
+            (unsigned char)((leastSignificant) & 0xFF)
+        };
+
+        env->DeleteLocalRef(javaUuid);
+    } else {
+        // we do not have a corresponding Java env
+        // temporary just return random (uninitialized) values
+        /* nothing to do */;
+    }
 
 	return bytes;
 }
