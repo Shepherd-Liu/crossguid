@@ -10,7 +10,7 @@ elseif(ANDROID)
     target_compile_definitions(${target} PRIVATE GUID_ANDROID)
 elseif(CMAKE_SYSTEM_NAME MATCHES Orbis)
     # nothing here
-elseif(CMAKE_SYSTEM_NAME MATCHES Psp2)
+elseif(CMAKE_SYSTEM_NAME MATCHES PSP2)
     # nothing here
 else()
     find_package(Libuuid REQUIRED)
