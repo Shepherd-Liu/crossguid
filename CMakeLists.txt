@@ -29,7 +29,7 @@ install(TARGETS xg
 )
 
 if(MSVC)
-    install(FILES ${PROJECT_BINARY_DIR}/CMakeFiles/xg.dir/xg.pdb
+    install(FILES ${PROJECT_BINARY_DIR}/Debug/xg.pdb
         DESTINATION ${CMAKE_SYSTEM_NAME}/lib
         CONFIGURATIONS Debug
         )
