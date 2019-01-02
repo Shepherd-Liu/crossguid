@@ -12,6 +12,8 @@ elseif(CMAKE_SYSTEM_NAME MATCHES Orbis)
     # nothing here
 elseif(CMAKE_SYSTEM_NAME MATCHES Psp2)
     # nothing here
+elseif(CMAKE_SYSTEM_NAME MATCHES Emscripten)
+    # nothing here
 else()
     find_package(Libuuid REQUIRED)
     if (NOT LIBUUID_FOUND)
