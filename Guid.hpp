@@ -104,7 +104,7 @@ namespace std
 	// Template specialization for std::swap<Guid>() --
 	// See guid.cpp for the function definition
 	template <>
-	void swap(xg::Guid &guid0, xg::Guid &guid1);
+	[[maybe_unused]] void swap(xg::Guid &guid0, xg::Guid &guid1);
 
 	// Specialization for std::hash<Guid> -- this implementation
 	// uses std::hash<std::string> on the stringification of the guid
