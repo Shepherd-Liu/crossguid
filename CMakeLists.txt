@@ -5,6 +5,12 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
 option(XG_TESTS "Build test runner" OFF)
 
+IF(${UNIX})
+    set(MYGE_TARGET_PLATFORM "Linux")
+ELSEIF(${WIN32})
+    set(MYGE_TARGET_PLATFORM "Windows")
+ENDIF(${UNIX})
+
 include_directories(.)
 set(CMAKE_CXX_STANDARD 11)
 include(PlatformDependencies)
@@ -18,19 +24,26 @@ if (XG_TESTS)
 	__add_xg_platform_dependencies(xgtest)
 endif()
 
+set(MYGE_EXTERNAL_ROOT ${PROJECT_BINARY_DIR}/../../${MYGE_TARGET_PLATFORM})
 
 set_target_properties(xg
 PROPERTIES PUBLIC_HEADER Guid.hpp
 )
 
 install(TARGETS xg
-    ARCHIVE DESTINATION ${MYGE_EXTERNAL_ROOT}/lib
-    PUBLIC_HEADER DESTINATION ${MYGE_EXTERNAL_ROOT}/include
+    PUBLIC_HEADER DESTINATION ${MYGE_EXTERNAL_ROOT}/include/crossguid
+    ARCHIVE DESTINATION ${MYGE_EXTERNAL_ROOT}/lib/Debug
+    CONFIGURATIONS Debug
+)
+
+install(TARGETS xg
+    ARCHIVE DESTINATION ${MYGE_EXTERNAL_ROOT}/lib/Release
+    CONFIGURATIONS Release
 )
 
 if(MSVC)
     install(FILES ${PROJECT_BINARY_DIR}/Debug/xg.pdb
-        DESTINATION ${MYGE_EXTERNAL_ROOT}/lib
+        DESTINATION ${MYGE_EXTERNAL_ROOT}/lib/Debug
         CONFIGURATIONS Debug
         )
 endif(MSVC)
